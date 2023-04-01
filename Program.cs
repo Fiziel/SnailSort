@@ -10,21 +10,31 @@ namespace SnailSort
     {
         static void Main(string[] args)
         {
+            //examples:
+            //var list1 = new List<List<int>>();
             //var list1 = new List<List<int>>()
             //{
             //    new List<int> { 1, 2, 3},
             //    new List<int> { 8, 9, 4},
             //    new List<int> { 7, 6, 5}
             //};
+            //var list1 = new List<List<int>>()
+            //{
+            //    new List<int> { 1, 2, 3, 4},
+            //    new List<int> { 12, 13, 14, 5},
+            //    new List<int> { 11, 16, 15, 6},
+            //    new List<int> { 10, 9, 8, 7}
+            //};
             var list1 = new List<List<int>>()
             {
                 new List<int> { 1, 2, 3, 4},
-                new List<int> { 12, 13, 14, 5},
-                new List<int> { 11, 16, 15, 6},
-                new List<int> { 10, 9, 8, 7}
+                new List<int> { 14, 15, 16, 5},
+                new List<int> { 13, 20, 17, 6},
+                new List<int> { 12, 19, 18, 7},
+                new List<int> { 11, 10, 9, 8}
             };
-            var rows = list1.Count;
-            var columns = ListCount(list1) / rows;
+            int rows = CheckZeroRaws(list1);
+            int columns = ListCount(list1) / rows; 
             var snailArray = new List<int>(); //final array
             PrintArray(list1, rows, columns);
             var snailList = Snail(list1, rows, columns, snailArray);
@@ -52,7 +62,7 @@ namespace SnailSort
                         snailArray.Add(list[i][j]);
                     else if (rows > list.Count && lastRowChecker)
                     {
-                        snailArray.Add(list[list.Count + 1 - i].First());
+                        snailArray.Add(list[rows - i].First());
                         break;
                     }
                     else
@@ -78,6 +88,12 @@ namespace SnailSort
             if (list.Count() == 0)
                 return snailArray;
             else return Snail(list, rows = list.Count, columns = ListCount(list) / rows, snailArray);
+        }
+
+        public static int CheckZeroRaws(List<List<int>> list)
+        {
+            if (list.Count == 0) return 1;
+            else return list.Count;
         }
 
         public static int ListCount(List<List<int>> list)
