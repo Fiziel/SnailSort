@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SnailSort
 {
@@ -10,31 +8,16 @@ namespace SnailSort
     {
         static void Main(string[] args)
         {
-            //examples:
-            //var list1 = new List<List<int>>();
-            //var list1 = new List<List<int>>()
-            //{
-            //    new List<int> { 1, 2, 3},
-            //    new List<int> { 8, 9, 4},
-            //    new List<int> { 7, 6, 5}
-            //};
-            //var list1 = new List<List<int>>()
-            //{
-            //    new List<int> { 1, 2, 3, 4},
-            //    new List<int> { 12, 13, 14, 5},
-            //    new List<int> { 11, 16, 15, 6},
-            //    new List<int> { 10, 9, 8, 7}
-            //};
             var list1 = new List<List<int>>()
             {
-                new List<int> { 1, 2, 3, 4},
-                new List<int> { 14, 15, 16, 5},
-                new List<int> { 13, 20, 17, 6},
-                new List<int> { 12, 19, 18, 7},
-                new List<int> { 11, 10, 9, 8}
+                new List<int> { 1, 2, 3, 4, 5},
+                new List<int> { 16, 17, 18, 19, 6},
+                new List<int> { 15, 24, 25, 20, 7},
+                new List<int> { 14, 23, 22, 21, 8},
+                new List<int> { 13, 12, 11, 10, 9}
             };
-            int rows = CheckZeroRaws(list1);
-            int columns = ListCount(list1) / rows; 
+            var rows = CheckZeroRaws(list1);
+            var columns = ListCount(list1) / rows; 
             var snailArray = new List<int>(); //final array
             PrintArray(list1, rows, columns);
             var snailList = Snail(list1, rows, columns, snailArray);
