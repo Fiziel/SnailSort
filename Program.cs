@@ -10,28 +10,32 @@ namespace SnailSort
     {
         static void Main(string[] args)
         {
+            //var list1 = new List<List<int>>()
+            //{
+            //    new List<int> { 1, 2, 3},
+            //    new List<int> { 8, 9, 4},
+            //    new List<int> { 7, 6, 5}
+            //};
             var list1 = new List<List<int>>()
             {
-                new List<int> { 1, 2, 3},
-                new List<int> { 8, 9, 4},
-                new List<int> { 7, 6, 5}
+                new List<int> { 1, 2, 3, 4},
+                new List<int> { 12, 13, 14, 5},
+                new List<int> { 11, 16, 15, 6},
+                new List<int> { 10, 9, 8, 7}
             };
             var rows = list1.Count;
             var columns = ListCount(list1) / rows;
-
+            var snailArray = new List<int>(); //final array
             PrintArray(list1, rows, columns);
-            var snailList = Snail(list1, rows, columns);
+            var snailList = Snail(list1, rows, columns, snailArray);
             Console.WriteLine("Snail:");
             foreach (var item in snailList)
-            {
                 Console.Write($"{item} ");
-            }
             Console.ReadKey();
         }
 
-        public static List<int> Snail(List<List<int>> list, int rows, int columns)
+        public static List<int> Snail(List<List<int>> list, int rows, int columns, List<int> snailArray)
         {
-            var snailArray = new List<int>(); //final array
             var fullRowChecker = true; //checks, if full row needed to print
             var lastRowChecker = false; //checks last row
             for (int i = 0; i < rows; i++)
@@ -44,9 +48,9 @@ namespace SnailSort
                 }
                 for (int j = 0; j < columns; j++)
                 {
-                    if (fullRowChecker)   
+                    if (fullRowChecker)
                         snailArray.Add(list[i][j]);
-                    else if(rows > list.Count && lastRowChecker)
+                    else if (rows > list.Count && lastRowChecker)
                     {
                         snailArray.Add(list[list.Count + 1 - i].First());
                         break;
@@ -56,14 +60,24 @@ namespace SnailSort
                         snailArray.Add(list[i].Last());
                         ++rows;
                         break;
-                    } 
+                    }
                 }
                 fullRowChecker = false;
             }
 
-                //if (ListCount(list) == snailArray.Count)
-                    return snailArray;
-                //else return Snail(list, rows, columns);
+            //removing used elements in list 
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                for (int j = list[i].Count - 1; j >= 0; j--)
+                    if (snailArray.Contains(list[i][j]))
+                        list[i].RemoveAt(j);
+                if (list[i].Count == 0)
+                    list.RemoveAt(i);
+            }
+
+            if (list.Count() == 0)
+                return snailArray;
+            else return Snail(list, rows = list.Count, columns = ListCount(list) / rows, snailArray);
         }
 
         public static int ListCount(List<List<int>> list)
