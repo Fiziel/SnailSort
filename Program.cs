@@ -13,8 +13,8 @@ namespace SnailSort
             var list1 = new List<List<int>>()
             {
                 new List<int> { 1, 2, 3},
-                new List<int> { 4, 5, 6},
-                new List<int> { 7, 8, 9}
+                new List<int> { 8, 9, 4},
+                new List<int> { 7, 6, 5}
             };
             var rows = list1.Count;
             var columns = ListCount(list1) / rows;
@@ -24,35 +24,46 @@ namespace SnailSort
             Console.WriteLine("Snail:");
             foreach (var item in snailList)
             {
-                Console.WriteLine($"{item} ");
+                Console.Write($"{item} ");
             }
             Console.ReadKey();
         }
 
         public static List<int> Snail(List<List<int>> list, int rows, int columns)
         {
-            var snailArray = new List<int>();
-            var firstChecker = false;
-
-            for (int i = 0; i < rows + (rows - 2); i++)
+            var snailArray = new List<int>(); //final array
+            var fullRowChecker = true; //checks, if full row needed to print
+            var lastRowChecker = false; //checks last row
+            for (int i = 0; i < rows; i++)
             {
-                if (rows == i + 1)
+                if (list.Count == i + 1)
                 {
                     list[i].Reverse();
-                    firstChecker = false;
+                    fullRowChecker = true;
+                    lastRowChecker = true;
                 }
-                for (int j = 0; j < columns - i; j++)
+                for (int j = 0; j < columns; j++)
                 {
-                    if (!firstChecker)
+                    if (fullRowChecker)   
                         snailArray.Add(list[i][j]);
-                    else snailArray.Add(list[i].Last());
+                    else if(rows > list.Count && lastRowChecker)
+                    {
+                        snailArray.Add(list[list.Count + 1 - i].First());
+                        break;
+                    }
+                    else
+                    {
+                        snailArray.Add(list[i].Last());
+                        ++rows;
+                        break;
+                    } 
                 }
-                firstChecker = true;
+                fullRowChecker = false;
             }
 
-            if (ListCount(list) == snailArray.Count)
-                return snailArray;
-            else return Snail(list, rows-2, columns-2);
+                //if (ListCount(list) == snailArray.Count)
+                    return snailArray;
+                //else return Snail(list, rows, columns);
         }
 
         public static int ListCount(List<List<int>> list)
